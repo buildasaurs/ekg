@@ -19,76 +19,65 @@ POST https://builda-ekg.herokuapp.com/v1/beep
 
 ## Events [/v1/beep]
 
+### Post new event [POST]
 
++ Request (application/json)
+        
+        {
+            "token": "fdsafdf-12313-fdfsd-34234",
+            "event_type": "buildasaur.heartbeat",
+            "version": "0.3",
+            "build": "12",
+            "uptime": "5534"
+        }
 
-### List All Questions [GET]
++ Response 200 (application/json)
+
+        {
+            "token": "fdsafdf-12313-fdfsd-34234",
+            "event_type": "buildasaur.heartbeat",
+            "version": "0.3",
+            "build": "12",
+            "uptime": "5534",
+            "event_id": 4,
+            "timestamp": 1441062839788
+        }
+        
+## Dump all data [/v1/beep/all]
+
+### Get all event data [GET]
+WARNING: Might be a lot of data!
 
 + Response 200 (application/json)
 
         [
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
+                "build": "12", 
+                "event_id": 3, 
+                "event_type": "buildasaur.heartbeat", 
+                "timestamp": 1441062832605, 
+                "token": "fdsafdf-12313-fdfsd-34234", 
+                "uptime": "5534", 
+                "version": "0.3"
+            }, 
+            {
+                "build": "12", 
+                "event_id": 4, 
+                "event_type": "buildasaur.heartbeat", 
+                "timestamp": 1441062839788, 
+                "token": "fdsafdf-12313-fdfsd-34234", 
+                "uptime": "5534", 
+                "version": "0.3"
             }
         ]
 
-### Create a New Question [POST]
+## Ping redis [/v1/beep/redis]
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+### Test that redis is accessible [GET]
 
-+ Request (application/json)
++ Response 200 (text/plain)
 
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
+        PONG
 
-+ Response 201 (application/json)
 
-    + Headers
 
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
