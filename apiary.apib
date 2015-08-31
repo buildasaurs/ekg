@@ -18,7 +18,7 @@ Base url is `https://builda-ekg.herokuapp.com`.
 
 + Request (application/json)
         
-        [Base Event]
+    Event
 
 + Response 200 (application/json)
 
@@ -70,10 +70,10 @@ WARNING: Might be a lot of data!
 
 # Data Structures
 
-## Base Event (object)
+## Event (object)
 
 + token (string) - unique, anonymous identifier
-+ event_type: "buildasaur.heartbeat" (enum) - one of event types
++ event_type: "heartbeat", "launch" (enum) - one of event types
 + version (string) - app version
 + build (string) - app build number
 
