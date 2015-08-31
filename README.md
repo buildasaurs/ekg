@@ -1,6 +1,8 @@
 # ekg
 Where [Buildasaur](https://github.com/czechboy0/buildasaur) sends its heartbeat.
 
+Node.js server for Buildasaur heartbeat/analytics information.
+
 - Runs on [`https://builda-ekg.herokuapp.com/`](https://builda-ekg.herokuapp.com/)
 - [API Documentation](http://docs.ekg.apiary.io/#)
 
