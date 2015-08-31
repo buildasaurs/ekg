@@ -4,18 +4,13 @@ HOST: http://polls.apiblueprint.org/
 # ekg
 
 Where [Buildasaur](https://github.com/czechboy0/buildasaur) sends its heartbeat.
-Latest API version is 1, so all calls need to be made like this
+Latest API version is 1, so all calls need to be made to a url like this
 
 ```
-POST https://builda-ekg.herokuapp.com/v1/beep
-{
-    "token": "fdsafdf-12313-fdfsd-34234",
-    "event_type": "buildasaur.heartbeat",
-    "version": "0.3",
-    "build": "12",
-    "uptime": "5534"
-}
+https://builda-ekg.herokuapp.com/v1/beep
 ```
+
+Base url is `https://builda-ekg.herokuapp.com`.
 
 ## Events [/v1/beep]
 
