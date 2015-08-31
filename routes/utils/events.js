@@ -18,6 +18,26 @@ function validateEvent(event) {
         return false;
     }
 
+    if (eventType === "buildasaur.heartbeat") {
+        //required: uptime in seconds
+        var uptime = event['uptime'];
+        if (!uptime || uptime.isEmpty) {
+            return false;
+        }
+    }
+
+    //required: version
+    var version = event['version'];
+    if (!version || version.isEmpty) {
+        return false;
+    }
+
+    //required: build
+    var build = event['build'];
+    if (!build || build.isEmpty) {
+        return false;
+    }
+
     return true;
 }
 
