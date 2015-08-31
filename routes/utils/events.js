@@ -13,12 +13,12 @@ function validateEvent(event) {
 
     //required: event-type
     var eventType = event['event_type'];
-    var allEventTypes = ["buildasaur.heartbeat", "buildasaur.launch"];
+    var allEventTypes = ["heartbeat", "launch"];
     if (!eventType || eventType.isEmpty || allEventTypes.indexOf(eventType) == -1) {
         return false;
     }
 
-    if (eventType === "buildasaur.heartbeat") {
+    if (eventType === "heartbeat") {
         //required: uptime in seconds
         var uptime = event['uptime'];
         if (!uptime || uptime.isEmpty) {
