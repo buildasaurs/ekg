@@ -1,0 +1,1 @@
+DEBUG=ekg:* npm start
