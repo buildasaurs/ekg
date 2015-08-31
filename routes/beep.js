@@ -50,9 +50,20 @@ function saveEvent(event, db, completion) {
     });
 }
 
-/* GET all events */
+/* GET all events - for implementing views on top of the raw data */
 router.get('/all', function(req, res, next) {
-  res.status(500).send('not implemented yet, my bad');
+
+    db().zrange("events", 0, -1, function(err, reply) {
+
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            //might be a lot of data
+            //TODO: implement paging
+            //parse again
+            res.send(reply.map(JSON.parse));
+        }
+    });
 });
 
 /* GET redis ping */
