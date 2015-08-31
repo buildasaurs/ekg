@@ -74,5 +74,18 @@ WARNING: Might be a lot of data!
 
         PONG
 
+# Data Structures
+
+## Base Event (object)
+
++ token (string) - unique, anonymous identifier
++ event_type: "buildasaur.heartbeat" (enum) - one of event types
++ version (string) - app version
++ build (string) - app build number
+
+## Heartbeat Event (object) : Base Event
+
++ uptime (string) - uptime in seconds
+
 
 
