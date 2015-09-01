@@ -5,6 +5,14 @@
 /* make sure the event is valid according to the API */
 function validateEvent(event) {
 
+    //TODO: create a function that makes sure of these things automagically
+
+    //required: app
+    var app = event.app;
+    if (!app || app.isEmpty) {
+        return false;
+    }
+
     //required: token
     var token = event.token;
     if (!token || token.isEmpty) {

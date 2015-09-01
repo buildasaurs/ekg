@@ -19,6 +19,7 @@ Base url is `https://builda-ekg.herokuapp.com`.
 + Request (application/json)
         
         {
+            "app": "com.honzadvorsky.Buildasaur",
             "token": "fdsafdf-12313-fdfsd-34234",
             "event_type": "heartbeat",
             "version": "0.3",
@@ -29,6 +30,7 @@ Base url is `https://builda-ekg.herokuapp.com`.
 + Response 200 (application/json)
 
         {
+            "app": "com.honzadvorsky.Buildasaur",
             "token": "fdsafdf-12313-fdfsd-34234",
             "event_type": "heartbeat",
             "version": "0.3",
@@ -47,6 +49,7 @@ WARNING: Might be a lot of data!
 
         [
             {
+                "app": "com.honzadvorsky.Buildasaur",
                 "build": "12", 
                 "event_id": 3, 
                 "event_type": "heartbeat", 
@@ -56,6 +59,7 @@ WARNING: Might be a lot of data!
                 "version": "0.3"
             }, 
             {
+                "app": "com.honzadvorsky.Buildasaur",
                 "build": "12", 
                 "event_id": 4, 
                 "event_type": "heartbeat", 
@@ -78,6 +82,7 @@ WARNING: Might be a lot of data!
 
 ## Base Event (object)
 
++ app (string) - bundle identifier of the sender
 + token (string) - unique, anonymous identifier
 + event_type: "heartbeat", "launch" (enum) - one of event types
 + version (string) - app version
