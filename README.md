@@ -6,6 +6,9 @@ Node.js server for Buildasaur heartbeat/analytics information.
 - Runs on [`https://builda-ekg.herokuapp.com/`](https://builda-ekg.herokuapp.com/)
 - [API Documentation](http://docs.ekg.apiary.io/#)
 
+# Swift SDK
+For integration in your app, see [ekgclient](https://github.com/czechboy0/ekgclient), a Swift client implementation for sending events to ekg.
+
 # installation
 Clone the repo and run `npm install` and then start the server locally with `./bin/www`. 
 Or, deploy it to your heroku account: [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
