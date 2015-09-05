@@ -10,14 +10,23 @@ router.post('/', function(req, res, next) {
 
     if (eventUtils.validateEvent(event)) {
 
-        saveEvent(event, db(), function(err, eventId) {
+        var saveCompletion = function(err, eventId) {
 
             if (err) {
                 res.status(500).send('Failed to save event: ' + err);
             } else {
-                res.send('(valid) Received Event: \n' + JSON.stringify(event, null, '\t'));
+                res.send(event);
             }
-        });
+        };
+
+        if (event['test_generated']) {
+            //don't save
+            console.log('Skipping saving of test event:\n' + JSON.stringify(event, null, '\t'))
+            saveCompletion(null, 12345);
+        } else {
+            saveEvent(event, db(), saveCompletion);
+        }
+
     } else {
         res.status(400).send('Invalid event: \n' + JSON.stringify(req.body, null, '\t'));
     }
