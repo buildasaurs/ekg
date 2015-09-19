@@ -19,7 +19,6 @@ def print_all_event_data(data, head, title)
   end
   table.title = title
   table.headings = head
-  # table.style = {:width => 160}
   puts table.to_s
 end
 
