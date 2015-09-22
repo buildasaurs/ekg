@@ -93,8 +93,25 @@ def map_tokens_to_events(data)
   return map
 end
 
+def print_basic_data(data)
+  mapped_events = map_tokens_to_events(data)
+  total_instances = mapped_events.count
+  instances_with_running_syncers = mapped_events.map do |token,events|
+    last_beat = events.select { |e| e['event_type'] == 'heartbeat' }.last || {}
+    last_beat['running_syncers'] || 0
+  end.select { |n| n > 0 }.count
+
+  puts "----------------------------------------------------------------------"
+  puts "Events from #{total_instances} instances, out of which #{instances_with_running_syncers} have running syncers".green
+  puts "----------------------------------------------------------------------"
+end
+
 # run
 downloaded = download_data
+
+# print basic metadata
+print_basic_data(downloaded)
+
 headers = [
   "timestamp",
   "event_id",
