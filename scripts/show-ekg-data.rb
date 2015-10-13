@@ -94,16 +94,84 @@ def map_tokens_to_events(data)
 end
 
 def print_basic_data(data)
+
+  # basic info of how many unique instances and how many of them running syncers
   mapped_events = map_tokens_to_events(data)
   total_instances = mapped_events.count
-  instances_with_running_syncers = mapped_events.map do |token,events|
-    last_beat = events.select { |e| e['event_type'] == 'heartbeat' }.last || {}
-    last_beat['running_syncers'] || 0
+  last_beats = mapped_events.map do |token,events|
+    events.select { |e| e['event_type'] == 'heartbeat' }.last || {}
+  end
+  instances_with_running_syncers = last_beats.map do |beat|
+    beat['running_syncers'] || 0
   end.select { |n| n > 0 }.count
 
   puts "----------------------------------------------------------------------"
   puts "Events from #{total_instances} instances, out of which #{instances_with_running_syncers} have running syncers".green
   puts "----------------------------------------------------------------------"
+
+  print_versions(last_beats)
+  print_syncers(last_beats)
+end
+
+def print_syncers(last_beats)
+
+  syncers = last_beats.reduce(Hash.new) do |all, beat|
+    c = beat['running_syncers']
+    all[c] = (all[c] || 0) + 1
+    all
+  end
+
+  head = ["Running Syncers", "Count of Instances"]
+  syncers_out = []
+  syncers.keys.each do |k|
+    syncers_out << [k, syncers[k]]
+  end
+
+  table = Terminal::Table.new do |t|
+    syncers_out.each do |it|
+      out = it
+      t.add_row out
+    end
+  end
+  table.title = "By running syncers"
+  table.headings = head
+  puts table.to_s
+
+end
+
+def print_versions(last_beats)
+
+  # versions
+  versioned = last_beats.reduce(Hash.new) do |all, beat|
+    v = beat['version']
+    s = beat['running_syncers']
+    it = all[v] || [0,0]
+    all[v] = [it[0] + 1, it[1] + (s > 0 ? 1 : 0)]
+    all
+  end
+
+  # add percentages
+  versionedWithPercent = versioned.map do |v, it|
+    [v, it[0], it[1], "#{(100*it[1].to_f/it[0].to_f).to_i}%"]
+  end
+
+  version_mapped = Hash.new
+  versionedWithPercent.each do |v|
+    version_mapped[v[0]] = v
+  end
+
+  head = ["Version", "All", "Running", "% Running"]
+
+  table = Terminal::Table.new do |t|
+    version_mapped.keys.sort.each do |k|
+      ver = version_mapped[k]
+      out = (0...head.count).map { |h| ver[h].to_s }
+      t.add_row out
+    end
+  end
+  table.title = "Instances by version"
+  table.headings = head
+  puts table.to_s
 end
 
 # run
