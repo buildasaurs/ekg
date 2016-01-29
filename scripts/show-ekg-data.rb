@@ -31,7 +31,7 @@ def all_keys(data)
 end
 
 def process_value(key, value, memory)
-  
+
   all_events = memory['all_events']
   event = memory['event']
   event_id = event['event_id']
@@ -80,7 +80,12 @@ end
 def download_data
   response = Excon.get("https://builda-ekg.herokuapp.com/v1/beep/all")
   raise "Failed to fetch data #{response.body}" unless response.status == 200
-  return JSON.parse(response.body)
+  parsed = JSON.parse(response.body)
+
+  # only use the events from last week
+  # parsed = parsed.select { |e| e["timestamp"] > (Time.new.to_i - 7*24*60*60)*1000 }
+
+  return parsed
 end
 
 def print_table(downloaded, headers, name)
@@ -100,7 +105,7 @@ def print_basic_data(data)
   total_instances = mapped_events.count
   last_beats = mapped_events.map do |token,events|
     events.select { |e| e['event_type'] == 'heartbeat' }.last || {}
-  end
+  end.select { |e| e['event_id'] != nil }
   instances_with_running_syncers = last_beats.map do |beat|
     beat['running_syncers'] || 0
   end.select { |n| n > 0 }.count
@@ -123,7 +128,7 @@ def print_syncers(last_beats)
 
   head = ["Running Syncers", "Count of Instances"]
   syncers_out = []
-  syncers.keys.each do |k|
+  syncers.keys.sort.each do |k|
     syncers_out << [k, syncers[k]]
   end
 
@@ -191,24 +196,25 @@ headers = [
   "running_syncers"
 ]
 
-# print all events
-print_table(
-  downloaded, 
-  headers,
-  "all ekg data"
-)
-
-puts "\n\t\t\t----\n\n"
-
-# print events for each token
-map_tokens_to_events(downloaded).each do |token, events|
+if (false)
+  # print all events
   print_table(
-    events, 
-    headers, 
-    "ekg data for token #{token}"
-  )
-end
+    downloaded, 
+    headers,
+    "all ekg data"
+    )
 
+  puts "\n\t\t\t----\n\n"
+
+  # print events for each token
+  map_tokens_to_events(downloaded).each do |token, events|
+    print_table(
+      events, 
+      headers, 
+      "ekg data for token #{token}"
+      )
+  end
+end
 
 
 
