@@ -196,6 +196,13 @@ headers = [
   "running_syncers"
 ]
 
+if (true)
+	events_syncer_types = downloaded.select { |e| (e["running_syncer_types"] || {}).keys.count > 0 }
+	unique_tokens = events_syncer_types.map { |e| e["token"] }.to_set
+	puts "Syncer type data available from #{unique_tokens.count} instances."
+	# require 'pry'; binding.pry
+end
+
 if (false)
   # print all events
   print_table(
