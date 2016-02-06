@@ -179,6 +179,33 @@ def print_versions(last_beats)
   puts table.to_s
 end
 
+def print_services(services)
+
+  # add percentages
+  total = services.reduce(0) { |all, data| all + data[1] }
+  services_split = services.map do |name, count|
+    [name, count, "#{(100*count.to_f/total.to_f).to_i}%"]
+  end
+
+  head = ["Name", "Count", "% Count"]
+
+  services_mapped = services_split.reduce({}) { |all, i|
+    all[i[0]] = i
+    all
+  }
+
+  table = Terminal::Table.new do |t|
+    services_mapped.keys.sort.each do |k|
+      dat = services_mapped[k]
+      out = (0...head.count).map { |h| dat[h].to_s }
+      t.add_row out
+    end
+  end
+  table.title = "Git services"
+  table.headings = head
+  puts table.to_s
+end
+
 # run
 downloaded = download_data
 
@@ -197,10 +224,23 @@ headers = [
 ]
 
 if (true)
-	events_syncer_types = downloaded.select { |e| (e["running_syncer_types"] || {}).keys.count > 0 }
+
+  events_syncer_types = map_tokens_to_events(downloaded).map { |k, v|
+    v.select { |e| (e["running_syncer_types"] || {}).keys.count > 0 }.last
+  }.select { |e| e != nil }
+
 	unique_tokens = events_syncer_types.map { |e| e["token"] }.to_set
-	puts "Syncer type data available from #{unique_tokens.count} instances."
-	# require 'pry'; binding.pry
+	
+  # look at how many syncers each service has
+  service_stats = events_syncer_types.reduce({}) { |all, e| 
+    e['running_syncer_types'].each { |type, count| all[type] = (all[type] || 0) + count }
+    all
+  }
+
+  # puts service_stats
+  print_services(service_stats)
+  puts "Syncer type data available from #{unique_tokens.count} instances."
+
 end
 
 if (false)
