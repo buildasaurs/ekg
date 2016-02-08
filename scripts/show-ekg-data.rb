@@ -62,7 +62,14 @@ def process_value(key, value, memory)
   when "running_syncers"
     new_value = value.to_i > 0 ? value.to_s.green : value.to_s.red
   when "event_type"
-    new_value = value == 'heartbeat' ? value.green : value.blue
+    case value 
+    when 'heartbeat'
+      new_value = value.green
+    when 'update'
+      new_value = value.red
+    else
+      new_value = value.blue
+    end
   else
     new_value = value 
   end
@@ -254,13 +261,13 @@ if (false)
   puts "\n\t\t\t----\n\n"
 
   # print events for each token
-  map_tokens_to_events(downloaded).each do |token, events|
-    print_table(
-      events, 
-      headers, 
-      "ekg data for token #{token}"
-      )
-  end
+  # map_tokens_to_events(downloaded).each do |token, events|
+  #   print_table(
+  #     events, 
+  #     headers, 
+  #     "ekg data for token #{token}"
+  #     )
+  # end
 end
 
 
