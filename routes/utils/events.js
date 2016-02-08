@@ -21,7 +21,7 @@ function validateEvent(event) {
 
     //required: event-type
     var eventType = event['event_type'];
-    var allEventTypes = ["heartbeat", "launch"];
+    var allEventTypes = ["heartbeat", "launch", "update"];
     if (!eventType || eventType.isEmpty || allEventTypes.indexOf(eventType) == -1) {
         return false;
     }
