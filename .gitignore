@@ -31,3 +31,5 @@ Dockerfile
 docker-compose.yml
 
 .idea
+
+scripts/backups

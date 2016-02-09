@@ -70,8 +70,10 @@ def process_value(key, value, memory)
     else
       new_value = value.blue
     end
+  when "running_syncer_types"
+  	new_value = value ? value.map { |k, v| "#{k}:#{v}" }.join(",") : ""
   else
-    new_value = value 
+  	new_value = value 
   end
   return new_value
 end
@@ -227,7 +229,8 @@ headers = [
   "version", 
   "build", 
   "uptime", 
-  "running_syncers"
+  "running_syncers",
+  "running_syncer_types"
 ]
 
 if (true)
