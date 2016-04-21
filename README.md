@@ -1,4 +1,7 @@
 # ekg
+
+**Depricated in favor of [ekg-swift](https://github.com/czechboy0/ekg-swift).**
+
 Where [Buildasaur](https://github.com/czechboy0/buildasaur) sends its heartbeat.
 
 Node.js server for Buildasaur heartbeat/analytics information.
